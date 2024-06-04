@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timer</title>
+    <link rel="stylesheet" href="css/code.css.css" />
+</head>
+<body>
+    <div class="custom-background">  </div>
+    <div id="timer">00:00:10</div>
+    <script>
+        let initialTime = 10; // 10 ثواني للمؤقت الأول
+        let countdownTime = 03 * 60 * 60; // 3 ساعات للمؤقت الثاني
+
+        // دالة لتحديث المؤقت الأول
+        function updateInitialTimer() {
+            let seconds = initialTime;
+
+            // تنسيق الأرقام لتكون بشكل 00
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // عرض الوقت
+            document.getElementById('timer').textContent = `00:00:${seconds}`;
+
+            // تحقق مما إذا انتهى الوقت
+            if (initialTime > 0) {
+                initialTime--;
+            } else {
+                clearInterval(initialTimerInterval);
+                startFinalCountdown();
+            }
+        }
+
+        // دالة لتحديث المؤقت الثاني
+        function updateFinalTimer() {
+            let hours = Math.floor(countdownTime / 3600);
+            let minutes = Math.floor((countdownTime % 3600) / 60);
+            let seconds = countdownTime % 60;
+
+            // تنسيق الأرقام لتكون بشكل 00
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // عرض الوقت
+            document.getElementById('timer').textContent = `${hours}:${minutes}:${seconds}`;
+
+            // تحقق مما إذا انتهى الوقت
+            if (countdownTime > 0) {
+                countdownTime--;
+            } else {
+                clearInterval(finalTimerInterval);
+                alert("Time over");
+            }
+        }
+
+        // دالة لبدء العد النهائي
+        function startFinalCountdown() {
+            // ضبط المؤقت على 3 ساعات
+            document.getElementById('timer').textContent = `03:00:00`;
+            finalTimerInterval = setInterval(updateFinalTimer, 1000);
+        }
+
+        // تحديث المؤقت الأول كل ثانية
+        let initialTimerInterval = setInterval(updateInitialTimer, 1000);
+        let finalTimerInterval;
+    </script>
+</body>
+</html>
